@@ -1,10 +1,6 @@
 name: Build and Deploy Avito Parser Service
 
 on:
-  push:
-    branches:
-      - main
-      - master
   workflow_dispatch:
 
 jobs:
@@ -48,13 +44,11 @@ jobs:
 
     - name: Deploy to Kubernetes
       run: |
-        kubectl apply -f ../../k8s/secrets/avito-parser-secrets.yaml
-        kubectl apply -f ../../k8s/deployments/avito-parser-service.yaml
         kubectl rollout restart deployment/avito-parser-service -n backend
         kubectl rollout status deployment/avito-parser-service -n backend --timeout=300s
 
     - name: Verify deployment
       run: |
-        kubectl get pods -n backend | grep avito-parser
+        kubectl get pods -n backend -l app=avito-parser-service
         kubectl logs -n backend deployment/avito-parser-service --tail=50
 
