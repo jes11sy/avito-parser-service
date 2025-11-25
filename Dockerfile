@@ -45,7 +45,7 @@ RUN apt-get update && apt-get install -y \
     lsb-release \
     wget \
     xdg-utils \
-    chromium-browser \
+    chromium \
     xvfb \
     x11vnc \
     fluxbox \
@@ -95,7 +95,8 @@ node dist/main.js\n\
 EXPOSE 5011 6080
 
 # Set environment
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium \
     DISPLAY=:99 \
     NODE_ENV=production
 
